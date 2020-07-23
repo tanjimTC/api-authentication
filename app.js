@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/APIAuthentication", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true, //to solve error => collection.ensureIndex is deprecated. Use createIndexes instead.
 });
 
 const app = express();
