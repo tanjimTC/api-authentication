@@ -1,16 +1,17 @@
 const JWT = require("jsonwebtoken");
-const { JWT_Secret } = require("../configueation/index");
+require("dotenv").config();
 const User = require("../models/user");
+const bcrypt = require("bcrypt");
 
 signToken = (newUser) => {
   return JWT.sign(
     {
       iss: "Tanjim",
-      sub: newUser.id,
-      iat: new Date().getTime(),
-      exp: new Date().setDate(new Date().getDate() + 1),
+      sub: newUser._id,
+      iat: new Date().getTime(), //current time
+      exp: new Date().setDate(new Date().getDate() + 1), //current time plus one day ahed
     },
-    JWT_Secret
+    process.env.TOKEN_SECRET
   );
 };
 
@@ -25,22 +26,30 @@ module.exports = {
         .status(403)
         .json({ Error: "User already with the same email exists" });
     }
-    // Create a user
+
+    // hash the password
+    const salt = await bcrypt.genSaltSync(10);
+    const hashedPass = await bcrypt.hashSync(password, salt);
+
+    // Create a user with hashed password
     const newUser = new User({
       email,
-      password,
+      password: hashedPass,
     });
     await newUser.save();
 
     // Generate a token
     const token = signToken(newUser);
+
     // Response with a token
     res.status(200).json({ token });
   },
+
   signin: async (req, res, next) => {
     //   Generate token
     console.log("userController.signin called");
   },
+
   secrets: async (req, res, next) => {
     console.log("userController.secrets called");
   },

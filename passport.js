@@ -2,7 +2,7 @@ const passport = require("passport");
 const JwtStrategy = require("passport-jwt").Strategy;
 const { ExtractJwt } = require("passport-jwt");
 const LocalStrategy = require("passport-local").Strategy;
-const { JWT_Secret } = require("./configueation/index");
+require("dotenv").config();
 const User = require("./models/user");
 
 // Json web token Strategy
@@ -10,7 +10,7 @@ passport.use(
   new JwtStrategy(
     {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken("Authorization"),
-      secretOrKey: JWT_Secret,
+      secretOrKey: process.env.TOKEN_SECRET,
     },
     async (payload, done) => {
       try {
