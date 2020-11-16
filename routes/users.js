@@ -11,6 +11,7 @@ const passport = require("passport");
 
 const passportLocal = passport.authenticate("local", { session: false });
 const passportJwt = passport.authenticate("jwt", { session: false });
+const passportGoogle = passport.authenticate("googleToken", { session: false });
 
 router
   .route("/signup")
@@ -25,5 +26,7 @@ router
   );
 
 router.route("/secrets").get(passportJwt, userController.secrets);
+
+router.route("/oauth/google").post(passportGoogle, userController.googleOAuth);
 
 module.exports = router;

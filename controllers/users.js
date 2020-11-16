@@ -20,8 +20,19 @@ module.exports = {
     const { email, password } = req.value.body;
 
     // Check if a user already exists with the same credentials
-    const foundUser = await User.findOne({ email });
-    if (foundUser) {
+    const foundLocalUser = await User.findOne({ "local.email": email }); //local
+    const foundGoogleUser = await User.findOne({ "google.email": email }); //google
+    // for nested property check in mongoose, we need to enclose the field within double quotes
+
+    // check for existing local users
+    if (foundLocalUser) {
+      return res
+        .status(403)
+        .json({ Error: "User already with the same email exists" });
+    }
+
+    // check for existing google auth user
+    if (foundGoogleUser) {
       return res
         .status(403)
         .json({ Error: "User already with the same email exists" });
@@ -33,8 +44,11 @@ module.exports = {
 
     // Create a user with hashed password
     const newUser = new User({
-      email,
-      password: hashedPass,
+      method: "local",
+      local: {
+        email: email,
+        password: hashedPass,
+      },
     });
     await newUser.save();
 
@@ -48,6 +62,13 @@ module.exports = {
   signin: async (req, res, next) => {
     //   Generate token
     console.log("successfully logged in");
+    const token = signToken(req.user);
+    res.status(200).json({ token });
+  },
+
+  googleOAuth: async (req, res, next) => {
+    // Generate token
+    console.log("got here", req.user);
     const token = signToken(req.user);
     res.status(200).json({ token });
   },

@@ -1,19 +1,42 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
+const { string } = require("joi");
 
 // Create a schema
 
 const userSchema = new Schema({
-  email: {
+  method: {
     type: String,
+    enum: ["google", "local", "facebook"],
     required: true,
-    unique: true,
-    lowercase: true,
   },
-  password: {
-    type: String,
-    required: true,
+  local: {
+    email: {
+      type: String,
+      lowercase: true,
+    },
+    password: {
+      type: String,
+    },
+  },
+  google: {
+    id: {
+      type: String,
+    },
+    email: {
+      type: String,
+      lowercase: true,
+    },
+  },
+  facebook: {
+    id: {
+      type: String,
+    },
+    email: {
+      type: String,
+      lowercase: true,
+    },
   },
 });
 

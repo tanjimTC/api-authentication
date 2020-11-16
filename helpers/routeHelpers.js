@@ -24,7 +24,7 @@ module.exports = {
         return res.status(400).send(result.error.details[0].message);
 
       // check if the user alredy exists
-      const user = await User.findOne({ email: req.body.email });
+      const user = await User.findOne({ "local.email": req.body.email });
       if (!user) return res.status(400).send("Email does't exists");
 
       // const validPass = await bcrypt.compare(req.body.password, user.password);
