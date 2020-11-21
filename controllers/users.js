@@ -20,9 +20,9 @@ module.exports = {
     const { email, password } = req.value.body;
 
     // Check if a user already exists with the same credentials
+    // for nested property check in mongoose, we need to enclose the field within double quotes
     const foundLocalUser = await User.findOne({ "local.email": email }); //local
     const foundGoogleUser = await User.findOne({ "google.email": email }); //google
-    // for nested property check in mongoose, we need to enclose the field within double quotes
 
     // check for existing local users
     if (foundLocalUser) {
