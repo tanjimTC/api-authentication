@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Home from "./containers/Home";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import SignUpContainer from "./containers/SignUpContainer";
+import SignInContainer from "./containers/SignInContainer";
+import DeshBoardContainer from "./containers/DeshBoardContainer";
+import showResults from "./showResults";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/signup">
+            <SignUpContainer onSubmit={showResults} />
+          </Route>
+          <Route path="/signin">
+            <SignInContainer />
+          </Route>
+          <Route path="/deshboard">
+            <DeshBoardContainer />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
