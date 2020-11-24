@@ -9,6 +9,6 @@ const reducer = combineReducers({
 });
 const store = (window.__REDUX_DEVTOOLS_EXTENSION__
   ? window.__REDUX_DEVTOOLS_EXTENSION__()(createStore)
-  : createStore)(reducer, applyMiddleware(thunk));
+  : createStore)(reducer, {}, applyMiddleware(thunk));
 
 export default store;

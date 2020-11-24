@@ -1,13 +1,20 @@
 import React from "react";
 import "./SignUp.css";
 import { Field, reduxForm } from "redux-form";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { signUp } from "../../redux/actions/authActions";
 
 const Signup = (props) => {
-  const { handleSubmit, pristine, reset, submitting } = props;
-
-  const formData = (data) => {
-    console.log("called", data);
-    reset();
+  const { handleSubmit, pristine, reset, submitting, state, signUp } = props;
+  const formData = async (data) => {
+    try {
+      console.log("called", data);
+      await signUp(data);
+      reset();
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div>
@@ -96,6 +103,17 @@ const Signup = (props) => {
   );
 };
 
-export default reduxForm({
-  form: "signup", // a unique identifier for this form
-})(Signup);
+const mapStateToProps = (state) => {
+  return {
+    state: state.auth,
+  };
+};
+
+const mapDispatchToProps = {
+  signUp: signUp,
+};
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  reduxForm({ form: "signup" })
+)(Signup);
