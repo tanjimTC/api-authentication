@@ -54,7 +54,7 @@ const Signup = (props) => {
                   type="submit"
                   disabled={pristine || submitting}
                 >
-                  Submit
+                  Sign up
                 </button>
                 <button
                   type="button"
