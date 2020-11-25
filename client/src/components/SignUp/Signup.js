@@ -4,9 +4,11 @@ import { Field, reduxForm } from "redux-form";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { signUp } from "../../redux/actions/authActions";
+// import * as action from "../../redux/actions/authActions";
 
 const Signup = (props) => {
-  const { handleSubmit, pristine, reset, submitting, state, signUp } = props;
+  const { handleSubmit, pristine, reset, submitting, signUp, state } = props;
+
   const formData = async (data) => {
     try {
       console.log("called", data);
@@ -16,9 +18,24 @@ const Signup = (props) => {
       console.log(error);
     }
   };
+  // if (state.isAuthenticated) {
+  //   reset();
+  //   document.querySelector("#accountAlert").style.display = "block";
+  //   setTimeout(function () {
+  //     document.querySelector("#accountAlert").style.display = "none";
+  //   }, 2000);
+  // }
   return (
     <div>
       <div className="container">
+        <div
+          className="alert alert-primary"
+          id="accountAlert"
+          role="alert"
+          style={{ display: "none" }}
+        >
+          account created successfully!
+        </div>
         <div
           style={{ height: "80vh", paddingTop: "15%" }}
           className="row d-flex justify-content-center  "

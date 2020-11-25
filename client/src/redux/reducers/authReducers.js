@@ -9,7 +9,12 @@ const initialState = {
 const authReducers = (state = initialState, action) => {
   switch (action.type) {
     case SIGN_UP:
-      return { ...state, isAuthenticated: true, token: "", errorMessage: "" };
+      return {
+        ...state,
+        isAuthenticated: true,
+        token: action.payload.token,
+        errors: "",
+      };
     default:
       return state;
   }

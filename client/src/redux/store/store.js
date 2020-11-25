@@ -7,8 +7,11 @@ const reducer = combineReducers({
   form: reduxFormReducer, // mounted under "form"
   auth: authReducers,
 });
-const store = (window.__REDUX_DEVTOOLS_EXTENSION__
-  ? window.__REDUX_DEVTOOLS_EXTENSION__()(createStore)
-  : createStore)(reducer, {}, applyMiddleware(thunk));
+
+// const store = (window.__REDUX_DEVTOOLS_EXTENSION__
+// ? window.__REDUX_DEVTOOLS_EXTENSION__()(createStore)
+//   : createStore)(reducer, {}, applyMiddleware(thunk));
+
+const store = createStore(reducer, {}, applyMiddleware(thunk));
 
 export default store;
