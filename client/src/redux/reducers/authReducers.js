@@ -1,9 +1,9 @@
-import { SIGN_UP } from "../actions/authActions";
+import { AUTH_ERROR, SIGN_IN, SIGN_UP } from "../actions/authActions";
 
 const initialState = {
   isAuthenticated: false,
   token: "",
-  errors: "",
+  errorMessage: "",
 };
 
 const authReducers = (state = initialState, action) => {
@@ -12,8 +12,21 @@ const authReducers = (state = initialState, action) => {
       return {
         ...state,
         isAuthenticated: true,
-        token: action.payload.token,
-        errors: "",
+        token: action.payload,
+        errorMessage: "",
+      };
+    case SIGN_IN:
+      console.log("signin reducer got called");
+      return {
+        ...state,
+        isAuthenticated: true,
+        token: action.payload,
+        errorMessage: "",
+      };
+    case AUTH_ERROR:
+      return {
+        ...state,
+        errorMessage: action.payload,
       };
     default:
       return state;
