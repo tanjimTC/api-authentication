@@ -1,6 +1,14 @@
-import React from "react";
-
-const DeshBoard = () => {
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { useLocation } from "react-router-dom";
+const DeshBoard = (props) => {
+  const location = useLocation();
+  console.log(props.state);
+  useEffect(() => {
+    console.log(location.pathname); // result: '/secondpage'
+    // console.log(location.search); // result: '?query=abc'
+    // console.log(location.state.detail); // result: 'some_value'
+  }, [location]);
   return (
     <div>
       <h1>welcome to DeshBoard</h1>
@@ -8,4 +16,10 @@ const DeshBoard = () => {
   );
 };
 
-export default DeshBoard;
+const mapStateToProps = (state) => {
+  return {
+    state: state.auth,
+  };
+};
+
+export default connect(mapStateToProps, null)(DeshBoard);

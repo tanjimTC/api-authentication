@@ -2,7 +2,8 @@ const passport = require("passport");
 const JwtStrategy = require("passport-jwt").Strategy;
 const { ExtractJwt } = require("passport-jwt");
 const LocalStrategy = require("passport-local").Strategy;
-const GooglePlusTokenStrategy = require("passport-google-plus-token");
+// const GooglePlusTokenStrategy = require("passport-google-plus-token");
+const GooglePlusTokenStrategy = require("passport-google-token").Strategy;
 const User = require("./models/user");
 require("dotenv").config();
 
@@ -83,7 +84,7 @@ passport.use(
     async function (req, accessToken, refreshToken, profile, next) {
       try {
         // Should have full user profile over here
-        // console.log("profile", profile);
+        console.log("profile", profile);
         // console.log("accessToken", accessToken);
         // console.log("refreshToken", refreshToken);
 
