@@ -35,7 +35,6 @@ const Signup = (props) => {
       console.log(error);
     }
   };
-  console.log(currentAuthState);
   // if (state.isAuthenticated) {
   //   reset();
   //   document.querySelector("#accountAlert").style.display = "block";
@@ -43,9 +42,18 @@ const Signup = (props) => {
   //     document.querySelector("#accountAlert").style.display = "none";
   //   }, 2000);
   // }
-  const responseGoogle = (response) => {
-    console.log(response);
-    googleAuth(response.accessToken);
+  const responseGoogle = async (response) => {
+    try {
+      console.log(response);
+      await googleAuth(response.accessToken);
+      if (!currentAuthState.errorMessage) {
+        history.push({
+          pathname: "/deshboard",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div>

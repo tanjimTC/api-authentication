@@ -1,7 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { signOut } from "../../redux/actions/authActions";
 import "./NavBar.css";
-const Navbar = () => {
+const Navbar = (props) => {
+  const { curretState, signOutttt } = props;
+  console.log(props);
+
   const hide = () => {
     let aria = document
       .getElementById("collapsed")
@@ -13,6 +18,13 @@ const Navbar = () => {
       x.classList.add("collapsed");
     }
   };
+  const signOutHander = () => {
+    signOutttt();
+    hide();
+
+    console.log("signout clicked");
+  };
+
   return (
     <nav className="navbar p-0 navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
@@ -40,26 +52,48 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse " id="navbarNav">
           <ul className="navbar-nav ml-auto">
-            <li className="nav-item active">
-              <Link className="nav-a" to="/deshboard" onClick={() => hide()}>
-                Deshboard
-              </Link>
-            </li>
-            <li className="nav-item active">
-              <Link className="nav-a" to="/signup" onClick={() => hide()}>
-                Sign up
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-a" to="/signin" onClick={() => hide()}>
-                Sign in
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-a" to="/" onClick={() => hide()}>
-                Contact
-              </Link>
-            </li>
+            {!curretState.isAuthenticated && (
+              <>
+                <li className="nav-item active">
+                  <Link className="nav-a" to="/signup" onClick={() => hide()}>
+                    Sign up
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-a" to="/signin" onClick={() => hide()}>
+                    Sign in
+                  </Link>
+                </li>
+              </>
+            )}
+
+            {curretState.isAuthenticated && (
+              <>
+                <li className="nav-item active">
+                  <Link
+                    className="nav-a"
+                    to="/deshboard"
+                    onClick={() => hide()}
+                  >
+                    Deshboard
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-a" to="/" onClick={() => hide()}>
+                    Contact
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    className="nav-a"
+                    to="/"
+                    onClick={() => signOutHander()}
+                  >
+                    Sign out
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>
@@ -67,4 +101,14 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+const mapStateToProps = (state) => {
+  return {
+    curretState: state.auth,
+  };
+};
+
+const mapDispatchToProps = {
+  signOutttt: signOut,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

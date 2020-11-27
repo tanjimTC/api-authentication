@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SignUpContainer from "./containers/SignUpContainer";
 import SignInContainer from "./containers/SignInContainer";
 import DeshBoardContainer from "./containers/DeshBoardContainer";
+import SignOutContainer from "./containers/SignOutContainer";
 import showResults from "./showResults";
 
 function App() {
@@ -20,6 +21,9 @@ function App() {
           <Route path="/signin">
             <SignInContainer />
           </Route>
+          {/* <Route path="/signout">
+            <SignOutContainer />
+          </Route> */}
           <Route path="/deshboard">
             <DeshBoardContainer />
           </Route>

@@ -3,22 +3,38 @@ import "./Signin.css";
 import { Field, reduxForm } from "redux-form";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { signIn } from "../../redux/actions/authActions";
+import { googleAuth, signIn } from "../../redux/actions/authActions";
+import { GoogleLogin } from "react-google-login";
+import { useHistory } from "react-router-dom";
 // import * as action from "../../redux/actions/authActions";
 
-const Signin = (props) => {
-  const { handleSubmit, pristine, reset, submitting, signIn, state } = props;
-
+const Signup = (props) => {
+  const {
+    handleSubmit,
+    pristine,
+    reset,
+    submitting,
+    signIn,
+    currentAuthState,
+    googleAuth,
+  } = props;
+  let history = useHistory();
   const formData = async (data) => {
     try {
       console.log("called", data);
       await signIn(data);
       reset();
+      if (!currentAuthState.errorMessage) {
+        history.push({
+          pathname: "/deshboard",
+          // search: "?query=abc",
+          // state: { detail: currentAuthState },
+        });
+      }
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(state);
   // if (state.isAuthenticated) {
   //   reset();
   //   document.querySelector("#accountAlert").style.display = "block";
@@ -26,9 +42,30 @@ const Signin = (props) => {
   //     document.querySelector("#accountAlert").style.display = "none";
   //   }, 2000);
   // }
+  const responseGoogle = async (response) => {
+    try {
+      console.log(response);
+      await googleAuth(response.accessToken);
+      if (!currentAuthState.errorMessage) {
+        history.push({
+          pathname: "/deshboard",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
       <div className="container">
+        <div
+          className="alert alert-primary"
+          id="accountAlert"
+          role="alert"
+          style={{ display: "none" }}
+        >
+          logged in successfully!
+        </div>
         <div
           style={{ height: "80vh", paddingTop: "15%" }}
           className="row d-flex justify-content-center  "
@@ -65,6 +102,29 @@ const Signin = (props) => {
                 </div>
               </div>
 
+              {currentAuthState.errorMessage ? (
+                <div className="alert alert-danger">
+                  {currentAuthState.errorMessage}
+                </div>
+              ) : null}
+
+              {/* {currentAuthState.isAuthenticated ? (
+                <div
+                  className="alert alert-success alert-dismissible fade show"
+                  role="alert"
+                >
+                  <strong>Account created succeddfully!</strong>
+                  <button
+                    type="button"
+                    className="close"
+                    data-dismiss="alert"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              ) : null} */}
+
               <div className="mt-2">
                 <button
                   className="btn btn-primary mr-2"
@@ -92,12 +152,19 @@ const Signin = (props) => {
                 </h6>
               </div>
               <center>
-                <button
+                <GoogleLogin
+                  clientId="272248706097-t1mr4b563opb7pkmelmfhnto0knv7mk6.apps.googleusercontent.com"
+                  buttonText="Google"
+                  onSuccess={responseGoogle}
+                  onFailure={responseGoogle}
+                  style={{ backgroundColor: "#DD4B39", width: "200px" }}
+                />
+                {/* <button
                   className="btn text-light mx-2 mb-2"
                   style={{ backgroundColor: "#DD4B39", width: "200px" }}
                 >
                   Google
-                </button>
+                </button> */}
                 <button
                   className="btn text-light mx-2 mb-2"
                   style={{ backgroundColor: "#3b5998", width: "200px" }}
@@ -115,15 +182,16 @@ const Signin = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    state: state.auth,
+    currentAuthState: state.auth,
   };
 };
 
 const mapDispatchToProps = {
   signIn: signIn,
+  googleAuth: googleAuth,
 };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({ form: "signin" })
-)(Signin);
+)(Signup);

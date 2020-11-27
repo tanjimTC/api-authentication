@@ -3,9 +3,8 @@ import { connect } from "react-redux";
 import { useLocation } from "react-router-dom";
 const DeshBoard = (props) => {
   const location = useLocation();
-  console.log(props.state);
   useEffect(() => {
-    console.log(location.pathname); // result: '/secondpage'
+    // console.log(location.pathname); // result: '/secondpage'
     // console.log(location.search); // result: '?query=abc'
     // console.log(location.state.detail); // result: 'some_value'
   }, [location]);

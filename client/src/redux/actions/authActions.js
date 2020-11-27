@@ -3,6 +3,7 @@ import Axios from "axios";
 export const SIGN_UP = "SIGN_UP";
 export const SIGN_IN = "SIGN_IN";
 export const GOOGLE_SIGN_UP = "GOOGLE_SIGN_UP";
+export const SIGN_OUT = "SIGN_OUT";
 export const AUTH_ERROR = "AUTH_ERROR";
 
 export const signUp = (data) => {
@@ -28,7 +29,6 @@ export const signUp = (data) => {
 export const signIn = (data) => {
   return async (dispatch) => {
     try {
-      console.log("Sign in axios got called");
       const res = await Axios.post("http://localhost:3200/user/signin", data);
       console.log(res.data);
       dispatch({
@@ -41,14 +41,24 @@ export const signIn = (data) => {
   };
 };
 
+export const signOut = () => {
+  return async (dispatch) => {
+    await localStorage.removeItem("Auth-Jwt");
+    dispatch({
+      type: SIGN_OUT,
+      payload: "",
+    });
+  };
+};
+
 export const googleAuth = (token) => {
   return async (dispatch) => {
-    console.log("we recived", token);
     try {
       const res = await Axios.post("http://localhost:3200/user/oauth/google", {
         access_token: token,
       });
       console.log(res.data);
+      localStorage.setItem("Auth-Jwt", res.data.token);
       dispatch({
         type: GOOGLE_SIGN_UP,
         payload: res.data.token,
