@@ -81,17 +81,17 @@ passport.use(
       clientSecret: "qqRCYdP6FB38NwG0x2-i4hqx",
       passReqToCallback: true,
     },
-    async function (req, accessToken, refreshToken, profile, next) {
+    async function (req, accessToken, refreshToken, profile, done) {
       try {
         // Should have full user profile over here
-        console.log("profile", profile);
+        console.log("profile", profile.id);
         // console.log("accessToken", accessToken);
         // console.log("refreshToken", refreshToken);
 
         const existingUser = await User.findOne({ "google.id": profile.id });
         if (existingUser) {
           console.log("exist");
-          return next(null, existingUser);
+          return done(null, existingUser);
         }
 
         const newUser = new User({
@@ -104,9 +104,9 @@ passport.use(
 
         await newUser.save();
         console.log("doesnt new user");
-        next(null, newUser);
+        done(null, newUser);
       } catch (error) {
-        next(error, false, error.message);
+        done(error, false, error.message);
       }
     }
   )
