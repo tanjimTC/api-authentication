@@ -6,9 +6,8 @@ import { connect } from "react-redux";
 import { googleAuth, signIn } from "../../redux/actions/authActions";
 import { GoogleLogin } from "react-google-login";
 import { useHistory } from "react-router-dom";
-// import * as action from "../../redux/actions/authActions";
 
-const Signup = (props) => {
+const Signin = (props) => {
   const {
     handleSubmit,
     pristine,
@@ -18,23 +17,26 @@ const Signup = (props) => {
     currentAuthState,
     googleAuth,
   } = props;
+
   let history = useHistory();
+
   const formData = async (data) => {
     try {
       console.log("called", data);
       await signIn(data);
       reset();
-      if (!currentAuthState.errorMessage) {
-        history.push({
-          pathname: "/deshboard",
-          // search: "?query=abc",
-          // state: { detail: currentAuthState },
-        });
-      }
+      console.log(currentAuthState);
     } catch (error) {
       console.log(error);
     }
   };
+
+  // if (currentAuthState.isAuthenticated) {
+  //   history.push({
+  //     pathname: "/deshboard",
+  //   });
+  // }
+
   // if (state.isAuthenticated) {
   //   reset();
   //   document.querySelector("#accountAlert").style.display = "block";
@@ -42,6 +44,7 @@ const Signup = (props) => {
   //     document.querySelector("#accountAlert").style.display = "none";
   //   }, 2000);
   // }
+
   const responseGoogle = async (response) => {
     try {
       console.log(response);
@@ -55,6 +58,7 @@ const Signup = (props) => {
       console.log(error);
     }
   };
+
   return (
     <div>
       <div className="container">
@@ -194,4 +198,4 @@ const mapDispatchToProps = {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({ form: "signin" })
-)(Signup);
+)(Signin);

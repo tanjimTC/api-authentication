@@ -46,6 +46,7 @@ const authReducers = (state = initialState, action) => {
     case AUTH_ERROR:
       return {
         ...state,
+        isAuthenticated: false,
         errorMessage: action.payload,
       };
     default:

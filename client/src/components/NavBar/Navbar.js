@@ -5,7 +5,7 @@ import { signOut } from "../../redux/actions/authActions";
 import "./NavBar.css";
 const Navbar = (props) => {
   const { curretState, signOutttt } = props;
-  console.log(props);
+  // console.log(props);
 
   const hide = () => {
     let aria = document
@@ -21,8 +21,6 @@ const Navbar = (props) => {
   const signOutHander = () => {
     signOutttt();
     hide();
-
-    console.log("signout clicked");
   };
 
   return (

@@ -6,6 +6,7 @@ import SignInContainer from "./containers/SignInContainer";
 import DeshBoardContainer from "./containers/DeshBoardContainer";
 import SignOutContainer from "./containers/SignOutContainer";
 import showResults from "./showResults";
+import { PrivateRoute } from "./components/HOCs/PrivateRoute";
 
 function App() {
   return (
@@ -24,9 +25,9 @@ function App() {
           {/* <Route path="/signout">
             <SignOutContainer />
           </Route> */}
-          <Route path="/deshboard">
+          <PrivateRoute path="/deshboard">
             <DeshBoardContainer />
-          </Route>
+          </PrivateRoute>
         </Switch>
       </Router>
     </div>

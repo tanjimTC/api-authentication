@@ -35,8 +35,13 @@ export const signIn = (data) => {
         type: SIGN_IN,
         payload: res.data.token,
       });
+      localStorage.setItem("Auth-Jwt", res.data.token);
     } catch (error) {
       console.log("sign in error", error.message);
+      dispatch({
+        type: AUTH_ERROR,
+        payload: "Email or Password is wrong",
+      });
     }
   };
 };

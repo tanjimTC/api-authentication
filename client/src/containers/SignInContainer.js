@@ -1,12 +1,12 @@
 import React from "react";
 import Navbar from "../components/NavBar/Navbar";
-import Signin from "../components/SignIn/Signin";
+import SignIn from "../components/SignIn/SignIn";
 
 const SignInContainer = () => {
   return (
     <div>
       <Navbar />
-      <Signin />
+      <SignIn />
     </div>
   );
 };

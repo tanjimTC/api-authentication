@@ -24,7 +24,7 @@ const Signup = (props) => {
       console.log("called", data);
       await signUp(data);
       reset();
-      if (!currentAuthState.errorMessage) {
+      if (currentAuthState.errorMessage) {
         history.push({
           pathname: "/deshboard",
           // search: "?query=abc",
